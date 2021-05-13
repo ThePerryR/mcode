@@ -4,9 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+
+const app = new window.Realm.App({
+  id: 'mcode-guru-bdomr'
+});
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App app={app} />
   </React.StrictMode>,
   document.getElementById('root')
 );

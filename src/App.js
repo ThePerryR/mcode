@@ -22,10 +22,10 @@ const Body = styled.div`
   }
 `
 
-function App() {
+function App({app}) {
   return (
     <Outer>
-      <Header/>
+      <Header user={app.currentUser}/>
       <Body>
         <Radio/>
         <Chat/>

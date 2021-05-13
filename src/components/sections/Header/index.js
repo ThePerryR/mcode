@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import Modal from 'react-modal'
+
+import modalStyles from '../../../utils/styles/modalStyles'
+import Login from '../../modals/Login'
+import Register from '../../modals/Register'
 
 const Outer = styled.div`
   display: flex;
@@ -19,11 +24,47 @@ const Logo = styled.div`
   font-size: 15px;
 `
 
-function Header() {
+const Row = styled.div`
+  display: flex;
+  margin-left: -8px;
+  margin-right: -8px;
+`
+const Link = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 12px;
+  margin-right: 12px;
+  cursor: pointer;
+`
+
+function Header ({user}) {
+  const [loginOpen, setLoginOpen] = useState(false)
+  const [registerOpen, setRegisterOpen] = useState(false)
   return (
-    <Outer>
-      <Logo><b>Morse</b>code</Logo>
-    </Outer>
+    <React.Fragment>
+      <Outer>
+        <Logo><b>Morse</b>code</Logo>
+        <div style={{ flex: 1 }}/>
+        {!user &&
+        <Row>
+          <Link onClick={() => setLoginOpen(true)}>Login</Link>
+          <Link onClick={() => setRegisterOpen(true)}>Register</Link>
+        </Row>
+        }
+      </Outer>
+      <Modal
+        style={modalStyles}
+        isOpen={loginOpen}
+        onRequestClose={() => setLoginOpen(false)}>
+        <Login/>
+      </Modal>
+      <Modal
+        style={modalStyles}
+        isOpen={registerOpen}
+        onRequestClose={() => setRegisterOpen(false)}>
+        <Register/>
+      </Modal>
+    </React.Fragment>
   )
 }
 
