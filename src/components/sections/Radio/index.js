@@ -73,7 +73,7 @@ class Radio extends React.Component {
     super(props)
     this.state = {
       keyOn: false,
-      volume: 40
+      volume: 0.5
     }
   }
   componentDidMount () {
@@ -126,9 +126,8 @@ class Radio extends React.Component {
       }, this.dotDuration * 7)
       this.sendMessage = setTimeout(() => {
         const message = convertToString([...this.tempMessage, [...this.tempWord, this.tempCharacter]])
-        if (message) {
-          console.log(message)
-          //this.onMessage(message)
+        if (message && this.props.onMessage) {
+          this.props.onMessage(message)
         }
         this.tempMessage = []
         this.tempWord = []
