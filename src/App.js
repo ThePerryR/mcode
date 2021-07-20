@@ -36,7 +36,11 @@ class App extends React.Component {
   }
 
   async componentDidMount () {
-    const { app } = this.props
+    const { app, ga4 } = this.props
+
+    console.log('pageview')
+    ga4.pageview('/')
+
     if (app.currentUser) {
       const mongodb = app.currentUser.mongoClient('mongodb-atlas')
       const reportCol = mongodb.db('main').collection('report')
