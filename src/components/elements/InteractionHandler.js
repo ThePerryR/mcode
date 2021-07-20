@@ -63,9 +63,7 @@ class InteractionHandler extends Component {
         }}
         onMouseDown={this.handlePress}
         onMouseUp={this.handleRelease}
-        onMouseLeave={this.handleRelease}
-        onTouchStart={this.handlePress}
-        onTouchEnd={this.handleRelease}>
+        onMouseLeave={this.handleRelease}>
         {this.props.children}
       </div>
     )
