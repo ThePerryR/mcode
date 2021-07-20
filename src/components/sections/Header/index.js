@@ -38,7 +38,7 @@ const Link = styled.div`
   cursor: pointer;
 `
 
-function Header ({user}) {
+function Header ({ user }) {
   const [loginOpen, setLoginOpen] = useState(false)
   const [registerOpen, setRegisterOpen] = useState(false)
 
@@ -53,7 +53,7 @@ function Header ({user}) {
         <Logo><b>Morse</b>code</Logo>
         <div style={{ flex: 1 }}/>
         {!user &&
-        <Row>
+        <Row style={{ display: 'none' }}>
           <Link onClick={() => setLoginOpen(true)}>Login</Link>
           <Link onClick={() => setRegisterOpen(true)}>Register</Link>
         </Row>
