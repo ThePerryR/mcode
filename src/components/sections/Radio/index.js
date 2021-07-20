@@ -92,7 +92,11 @@ class Radio extends React.Component {
     }
   }
   componentDidMount () {
-    this.context = new (window.AudioContext || window.webkitAudioContext)()
+    this.AC = window.AudioContext || window.webkitAudioContext
+  }
+
+  createAudioContext () {
+    this.context = new this.AC()
 
     this.gainNode = this.context.createGain()
     this.gainNode.gain.value = this.state.volume
@@ -109,7 +113,9 @@ class Radio extends React.Component {
   }
 
   handleStart = () => {
-    console.log('connect')
+    if (!this.context || !(this.context instanceof this.AC)) {
+      this.createAudioContext()
+    }
     this.oscillator.connect(this.gainNode)
     clearTimeout(this.addCharacter)
     clearTimeout(this.sendWord)
