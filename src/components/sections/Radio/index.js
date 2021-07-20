@@ -7,7 +7,7 @@ import InteractionHandler from '../../elements/InteractionHandler'
 
 const Outer = styled.div`
   flex: 1;
-  border-right: 1px solid #E5E5E5;
+  border-left: 1px solid #E5E5E5;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -92,8 +92,12 @@ class Radio extends React.Component {
       startAudioContext(this.context, '#handler')
     }
   }
+  componentWillUnmount () {
+    this.context.close()
+  }
 
   handleStart = () => {
+    console.log('connect')
     this.oscillator.connect(this.gainNode)
     clearTimeout(this.addCharacter)
     clearTimeout(this.sendWord)

@@ -50,12 +50,27 @@ class Login extends Component {
     }
   }
 
+  login = async () => {
+    const { email, password } = this.state
+    try {
+      const app = window.Realm.App.getApp('mcode-guru-bdomr')
+      const credentials = window.Realm.Credentials.emailPassword(email, password);
+      await app.logIn(credentials)
+      window.location.reload()
+    } catch (err) {
+      console.log(err.errorCode, 'fooerr')
+      let error = 'Something went wrong. Please try again'
+      if (err.errorCode === 'InvalidPassword') error = 'Invalid email or password'
+      this.setState({error})
+    }
+  }
+
   render () {
-    const { email, password, passwordC } = this.state
+    const { email, password } = this.state
     return (
       <Outer>
         <Title>Learn Morse Code</Title>
-        <SubTitle>Register to save and manage your progress</SubTitle>
+        <SubTitle>Login to save and manage your progress</SubTitle>
         <Form>
           <Label>Email Address</Label>
           <Input
@@ -68,13 +83,7 @@ class Login extends Component {
             value={password}
             onChange={e => this.setState({ password: e.target.value })}
           />
-          <Label>Confirm Password</Label>
-          <Input
-            type='password'
-            value={passwordC}
-            onChange={e => this.setState({ passwordC: e.target.value })}
-          />
-          <Button>Sign up</Button>
+          <Button onClick={this.login}>Login</Button>
         </Form>
       </Outer>
     )

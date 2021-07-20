@@ -19,7 +19,7 @@ const Body = styled.div`
   flex: 1;
   
   @media (max-width: 880px) {
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 `
 
@@ -29,12 +29,28 @@ class App extends React.Component {
     this.state = {
       currentChapter: null,
       lessonIndex: 0,
-      countIndex: 0
+      countIndex: 0,
+      chapterProgress: 0
+    }
+  }
+
+  async componentDidMount () {
+    const { app } = this.props
+    if (app.currentUser) {
+      const mongodb = app.currentUser.mongoClient('mongodb-atlas')
+      const reportCol = mongodb.db('main').collection('report')
+      let report = await reportCol.findOne({ owner: app.currentUser.id })
+      console.log(report)
+      if (!report) {
+        await reportCol.insertOne({ owner: app.currentUser.id, chapterProgress: 0 })
+      } else {
+        this.setState({ chapterProgress: report.chapterProgress })
+      }
     }
   }
 
   handleMessage = message => {
-    console.log(message, 'mm')
+    if (!this.state.currentChapter) return
     const lesson = lessons[this.state.currentChapter].lessons[this.state.lessonIndex]
     if (lesson.type === 'send-code' && lesson.answer === message.trim()) {
       console.log('foo')
@@ -51,11 +67,22 @@ class App extends React.Component {
     }
   }
 
-  next = () => {
-    if (this.state.lessonIndex + 1 < lessons[this.state.currentChapter].length) {
+  next = async () => {
+    if (this.state.lessonIndex + 1 < lessons[this.state.currentChapter].lessons.length) {
       this.setState({ lessonIndex: this.state.lessonIndex + 1, countIndex: 0 })
     } else if (this.state.currentChapter + 1 < lessons.length) {
-      this.setState({ currentChapter: this.state.currentChapter + 1, countIndex: 0 })
+      if (this.state.currentChapter + 1 > this.state.chapterProgress) {
+        const mongodb = this.props.app.currentUser.mongoClient('mongodb-atlas')
+        const reportCol = mongodb.db('main').collection('report')
+        console.log('updating to', this.state.currentChapter + 1)
+        await reportCol.updateOne({ owner: this.props.app.currentUser.id }, { chapterProgress: this.state.currentChapter + 1 })
+      }
+      this.setState({
+        countIndex: 0,
+        lessonIndex: 0,
+        currentChapter: 0,
+        chapterProgress: this.state.currentChapter + 1 > this.state.chapterProgress ? this.state.currentChapter + 1 : this.state.chapterProgress
+      })
     } else {
       this.setState({ complete: true, countIndex: 0 })
     }
@@ -67,17 +94,17 @@ class App extends React.Component {
       <Outer>
         <Header user={user}/>
         <Body>
-          <Radio onMessage={this.handleMessage}/>
           {user &&
           <Chat
             lessonIndex={this.state.lessonIndex}
             countIndex={this.state.countIndex}
             chapter={this.state.currentChapter}
             next={this.next}
-            chapterProgress={0}
+            chapterProgress={this.state.chapterProgress}
             selectChapter={currentChapter => this.setState({ currentChapter })}
           />
           }
+          <Radio onMessage={this.handleMessage}/>
         </Body>
       </Outer>
     )
