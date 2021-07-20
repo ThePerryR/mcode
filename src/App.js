@@ -104,7 +104,7 @@ class App extends React.Component {
             selectChapter={currentChapter => this.setState({ currentChapter })}
           />
           }
-          <Radio onMessage={this.handleMessage}/>
+          <Radio full={!user} onMessage={this.handleMessage}/>
         </Body>
       </Outer>
     )

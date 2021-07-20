@@ -18,8 +18,15 @@ const Outer = styled.div`
     flex-grow: 0;
     flex-basis: 80px;
     flex-shrink: 0;
-    border-right: none;
+    border-left: none;
     border-top: 1px solid #E5E5E5;
+    padding-bottom: 24px;
+    padding-right: 24px;
+    padding-left: 24px;
+    ${props => props.full && `
+    flex-grow: 1;
+    justify-content: flex-end;
+    `}
   }
 `
 
@@ -150,7 +157,7 @@ class Radio extends React.Component {
 
   render () {
     return (
-      <Outer>
+      <Outer full={this.props.full}>
         <Preview>
           <PreviewMessage>{this.state.previewMessage}</PreviewMessage>
           <PreviewCode>{this.tempCharacter}</PreviewCode>
