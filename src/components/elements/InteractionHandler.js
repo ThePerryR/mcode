@@ -41,7 +41,9 @@ class InteractionHandler extends Component {
     }
   }
 
-  handleRelease = () => {
+  handleRelease = (e) => {
+    console.log(e.type)
+    e.preventDefault()
     if (this.props.disabled || !this.pressed) {
       return
     }
@@ -63,7 +65,9 @@ class InteractionHandler extends Component {
         }}
         onMouseDown={this.handlePress}
         onMouseUp={this.handleRelease}
-        onMouseLeave={this.handleRelease}>
+        onMouseLeave={this.handleRelease}
+        onTouchStart={this.handlePress}
+        onTouchEnd={this.handleRelease}>
         {this.props.children}
       </div>
     )
