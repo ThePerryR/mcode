@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Div100vh from 'react-div-100vh'
 
 import Header from './components/sections/Header'
 import Radio from './components/sections/Radio'
@@ -11,7 +12,7 @@ const Outer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 `
 
 const Body = styled.div`
@@ -91,22 +92,24 @@ class App extends React.Component {
   render () {
     const user = this.props.app.currentUser
     return (
-      <Outer>
-        <Header user={user}/>
-        <Body>
-          {user &&
-          <Chat
-            lessonIndex={this.state.lessonIndex}
-            countIndex={this.state.countIndex}
-            chapter={this.state.currentChapter}
-            next={this.next}
-            chapterProgress={this.state.chapterProgress}
-            selectChapter={currentChapter => this.setState({ currentChapter })}
-          />
-          }
-          <Radio full={!user} onMessage={this.handleMessage}/>
-        </Body>
-      </Outer>
+      <Div100vh>
+        <Outer>
+          <Header user={user}/>
+          <Body>
+            {user &&
+            <Chat
+              lessonIndex={this.state.lessonIndex}
+              countIndex={this.state.countIndex}
+              chapter={this.state.currentChapter}
+              next={this.next}
+              chapterProgress={this.state.chapterProgress}
+              selectChapter={currentChapter => this.setState({ currentChapter })}
+            />
+            }
+            <Radio full={!user} onMessage={this.handleMessage}/>
+          </Body>
+        </Outer>
+      </Div100vh>
     )
   }
 }
