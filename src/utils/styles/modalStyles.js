@@ -1,6 +1,6 @@
 const customStyles = {
   overlay: {
-    background: 'rgba(255,255,255,0.42)'
+    background: 'rgba(0,0,0,0.64)'
   },
   content: {
     top: '50%',

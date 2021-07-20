@@ -5,6 +5,7 @@ import Modal from 'react-modal'
 import modalStyles from '../../../utils/styles/modalStyles'
 import Login from '../../modals/Login'
 import Register from '../../modals/Register'
+import Button from '../../elements/button'
 
 const Outer = styled.div`
   display: flex;
@@ -40,6 +41,12 @@ const Link = styled.div`
 function Header ({user}) {
   const [loginOpen, setLoginOpen] = useState(false)
   const [registerOpen, setRegisterOpen] = useState(false)
+
+  async function logout () {
+    await user.logOut()
+    window.location.reload()
+  }
+
   return (
     <React.Fragment>
       <Outer>
@@ -49,6 +56,11 @@ function Header ({user}) {
         <Row>
           <Link onClick={() => setLoginOpen(true)}>Login</Link>
           <Link onClick={() => setRegisterOpen(true)}>Register</Link>
+        </Row>
+        }
+        {user &&
+        <Row>
+          <Button secondary small onClick={logout}>Logout</Button>
         </Row>
         }
       </Outer>

@@ -12,7 +12,7 @@ const Outer = styled.div`
 const Title = styled.div`
   font-size: 24px;
   font-weight: 800;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 
 `
 const SubTitle = styled.div`
