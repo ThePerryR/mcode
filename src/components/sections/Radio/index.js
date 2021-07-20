@@ -47,6 +47,10 @@ const Preview = styled.div`
   max-width: 380px;
   border-radius: 8px;
   margin-bottom: 64px;
+  
+  @media (max-width: 880px) {
+    margin-bottom: 32px;
+  }
 `
 const PreviewMessage = styled.div`
   height: 48px;
@@ -65,6 +69,10 @@ const PreviewCode = styled.div`
   justify-content: center;
   font-size: 36px;
   padding-bottom: 24px;
+  
+  @media (max-width: 880px) {
+    height: 56px;
+  }
 `
 const isMobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 
@@ -98,9 +106,6 @@ class Radio extends React.Component {
     if (isMobileRegex.test(navigator.userAgent)) {
       startAudioContext(this.context, '#handler')
     }
-  }
-  componentWillUnmount () {
-    this.context.close()
   }
 
   handleStart = () => {
